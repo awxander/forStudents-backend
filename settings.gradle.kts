@@ -1,0 +1,1 @@
+rootProject.name = "ru.forStudents.forstudents-backend"
