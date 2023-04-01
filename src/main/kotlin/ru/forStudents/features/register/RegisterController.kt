@@ -22,19 +22,18 @@ class RegisterController(private val call: ApplicationCall) {
             call.respond(HttpStatusCode.BadRequest, "not valid email")
             return
         }
-        if (isUserExist(registerReceiveRemote.login)) {
+        if (isUserExist(registerReceiveRemote.email)) {
             call.respond(HttpStatusCode.BadRequest, "user already exist")
         } else {
             val token = UUID.randomUUID().toString()
             Tokens.insert(
                 TokenDTO(
                     id = UUID.randomUUID().toString(),
-                    login = registerReceiveRemote.login,
+                    email = registerReceiveRemote.email,
                     token = token
                 )
             )
             Users.insert(UserDTO(
-                login = registerReceiveRemote.login,
                 password = registerReceiveRemote.password,
                 email = registerReceiveRemote.email,
                 username = registerReceiveRemote.username

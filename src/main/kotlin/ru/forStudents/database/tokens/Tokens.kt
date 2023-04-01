@@ -10,14 +10,14 @@ import ru.forStudents.database.users.Users
 object Tokens : Table("tokens") {
 
     private val id = Tokens.varchar("id",50)
-    private val login = Tokens.varchar("login",20)
+    private val email = Tokens.varchar("email",30)
     private val token = Tokens.varchar("token",50)
 
     fun insert(tokenDTO: TokenDTO){
         transaction {
             Tokens.insert {
                 it[id] = tokenDTO.id
-                it[login] = tokenDTO.login
+                it[email] = tokenDTO.email
                 it[token] = tokenDTO.token
             }
         }

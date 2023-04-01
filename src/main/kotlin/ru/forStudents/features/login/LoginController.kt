@@ -15,11 +15,11 @@ class LoginController(private val call: ApplicationCall) {
     suspend fun loginUser() {
         val loginReceiveRemote = call.receive<LoginReceiveRemote>()
 
-        if (!isUserExist(loginReceiveRemote.login)) {
+        if (!isUserExist(loginReceiveRemote.email)) {
             call.respond(HttpStatusCode.BadRequest, "user doesn't exist")
         } else {
 
-            if (!isPasswordCorrect(loginReceiveRemote.login, loginReceiveRemote.password)) {
+            if (!isPasswordCorrect(loginReceiveRemote.email, loginReceiveRemote.password)) {
                 call.respond(HttpStatusCode.Forbidden, "wrong password")
             } else {
 
@@ -27,7 +27,7 @@ class LoginController(private val call: ApplicationCall) {
                 Tokens.insert(
                     TokenDTO(
                         id = UUID.randomUUID().toString(),
-                        login = loginReceiveRemote.login,
+                        email = loginReceiveRemote.email,
                         token = token
                     )
                 )

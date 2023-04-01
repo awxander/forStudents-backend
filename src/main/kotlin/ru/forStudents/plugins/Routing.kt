@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 fun Application.configureRouting() {
     routing {
         get("/") {
-            call.respondText("yaya")
+            call.respondText("wrong link, use correct path")
         }
     }
 }
