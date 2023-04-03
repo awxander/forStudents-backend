@@ -1,5 +1,6 @@
 package ru.forStudents.database.users
 
+import org.apache.logging.log4j.LogManager
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -10,6 +11,7 @@ object Users : Table("users") {
     private val username = Users.varchar("username", 30)
     private val email = Users.varchar("email", 50)
 
+    private val logger = LogManager.getLogger()
 
     fun insert(userDTO: UserDTO) {
         transaction {
@@ -34,7 +36,9 @@ object Users : Table("users") {
                 )
             }
         } catch (ex: Exception) {
-            ex.printStackTrace()
+            println("yoyo\n")
+            logger.info("user with email $email doesn't exist in db, ${ex.message} ")
+            println("yoyo\n")
             null
         }
     }
