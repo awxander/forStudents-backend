@@ -11,7 +11,7 @@ object Users : Table("users") {
     private val username = Users.varchar("username", 30)
     private val email = Users.varchar("email", 50)
 
-    private val logger = LogManager.getLogger()
+    private val logger = LogManager.getLogger(Users::class.java)
 
     fun insert(userDTO: UserDTO) {
         transaction {
