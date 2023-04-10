@@ -44,6 +44,7 @@ dependencies {
 
     //logging
     implementation("org.apache.logging.log4j:log4j-core:$log4j_version")
+    implementation("org.apache.logging.log4j:log4j-api:$log4j_version")
 
     //serialization
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
