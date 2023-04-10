@@ -12,6 +12,7 @@ object Questions : Table("questions") {
     private val topic = Questions.varchar("topic", 250)
     private val userEmail = Questions.varchar("user_email", 50)
     private val question = Questions.text("question_body")
+    private val discussionId = Questions.varchar("discussion_id", 50)
 
     private val logger = LogManager.getLogger(Questions::class.java)
 
@@ -22,6 +23,7 @@ object Questions : Table("questions") {
                 it[topic] = questionDTO.topic
                 it[userEmail] = questionDTO.userEmail
                 it[question] = questionDTO.question
+                it[discussionId] = questionDTO.discussionId
             }
         }
     }
@@ -40,6 +42,7 @@ object Questions : Table("questions") {
                             question = row[Questions.question],
                             topic = row[Questions.topic],
                             userEmail = row[Questions.userEmail],
+                            discussionId = row[Questions.discussionId]
                         )
                     )
                 }
