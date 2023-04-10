@@ -36,9 +36,7 @@ object Users : Table("users") {
                 )
             }
         } catch (ex: Exception) {
-            println("yoyo\n")
-            logger.info("user with email $email doesn't exist in db, ${ex.message} ")
-            println("yoyo\n")
+            logger.error("user with email $email doesn't exist in db, ${ex.message} ")//TODO что с логгированием
             null
         }
     }
