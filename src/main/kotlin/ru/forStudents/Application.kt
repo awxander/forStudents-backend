@@ -4,11 +4,15 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import org.jetbrains.exposed.sql.Database
+import ru.forStudents.features.ask.configureAskRouting
 import ru.forStudents.features.login.configureLoginRouting
 import ru.forStudents.features.register.configureRegisterRouting
 import ru.forStudents.plugins.*
 
 fun main() {
+
+    println(Thread.currentThread().contextClassLoader.getResource("log4j2.properties"))
+
     Database.connect(
         url = "jdbc:postgresql://localhost:5432/forStudents",
         driver = "org.postgresql.Driver",
@@ -27,4 +31,5 @@ fun Application.module() {
     configureRegisterRouting()
     configureLoginRouting()
     configureSerialization()
+    configureAskRouting()
 }
