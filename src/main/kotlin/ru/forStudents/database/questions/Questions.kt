@@ -5,7 +5,6 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.forStudents.database.users.Users
 
 object Questions : Table("questions") {
     private val id = Questions.varchar("id", 50)
