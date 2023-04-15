@@ -6,9 +6,9 @@ import ru.forStudents.features.register.RegisterController
 
 fun Application.configureAskRouting() {
     routing {
-        post("/ask") {
+        post("questions/new") {
             val questionController = QuestionController(call)
-
+            questionController.openDiscussion()
         }
     }
 }
