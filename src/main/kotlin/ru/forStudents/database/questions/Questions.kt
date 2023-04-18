@@ -1,9 +1,7 @@
 package ru.forStudents.database.questions
 
 import org.apache.logging.log4j.LogManager
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object Questions : Table("questions") {
@@ -51,6 +49,34 @@ object Questions : Table("questions") {
             logger.error("fetch questions failed, ${ex.message}")//TODO что с логгированием
             null
         }
+    }
+
+    fun fetchAll() : List<QuestionDTO>?{
+        return try {
+            transaction {
+                val questionsModel = Questions.selectAll().toList()
+                getQuestionsDTOList(questionsModel)
+            }
+        } catch (ex: Exception) {
+            logger.error("fetch questions failed, ${ex.message}")//TODO что с логгированием
+            null
+        }
+    }
+
+    private fun getQuestionsDTOList(questionsModel: List<ResultRow>) : List<QuestionDTO>{
+        val questions = ArrayList<QuestionDTO>()
+        for (row in questionsModel) {
+            questions.add(
+                QuestionDTO(
+                    id = row[Questions.id],
+                    question = row[Questions.question],
+                    topic = row[Questions.topic],
+                    userEmail = row[Questions.userEmail],
+                    discussionId = row[Questions.discussionId]
+                )
+            )
+        }
+        return questions
     }
 }
 

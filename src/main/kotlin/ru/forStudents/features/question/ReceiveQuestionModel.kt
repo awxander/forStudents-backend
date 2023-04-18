@@ -1,10 +1,10 @@
-package ru.forStudents.features.ask
+package ru.forStudents.features.question
 
 import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class RemoteQuestionModel(
+data class ReceiveQuestionModel(
     val topic: String,
     val body : String
 )
