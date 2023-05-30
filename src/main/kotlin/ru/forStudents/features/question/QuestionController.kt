@@ -4,6 +4,8 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 import ru.forStudents.database.discussions.DiscussionDTO
 import ru.forStudents.database.discussions.Discussions
 import ru.forStudents.database.questions.QuestionDTO
@@ -52,23 +54,30 @@ class QuestionController(private val call: ApplicationCall) {
             if (tokenDTO == null) {
                 call.respond(HttpStatusCode.Unauthorized, "token expired or never existed, login again")
             } else {
-                val questions = Questions.fetchAll()
                 val questionsResponseModel = ArrayList<ResponseQuestionModel>()
-                if (questions != null) {
-                    for (question in questions) {
-                        val userDTO = Users.fetchUser(tokenDTO.email)
-                        questionsResponseModel.add(ResponseQuestionModel(
-                            email = userDTO!!.email,
-                            userName = userDTO.username,
-                            topic = question.topic,
-                            body = question.question
-                        ))
+                transaction {
+                    val usersJoinQuestions = (Users innerJoin Questions)
+                    val result = usersJoinQuestions.select {
+                        Users.email.eq(Questions.userEmail)
                     }
-
-                    call.respond(questionsResponseModel)
-                }else{
-                    call.respond(HttpStatusCode.OK)
+                        .orderBy(Users.username)
+                        .toList()
+                    for (row in result) {
+                        questionsResponseModel.add(
+                            ResponseQuestionModel(
+                                email = row[Users.email],
+                                username = row[Users.username],
+                                topic = row[Questions.topic],
+                                body = row[Questions.question]
+                            )
+                        )
+                    }
                 }
+                if (questionsResponseModel.size > 0)
+                    call.respond(questionsResponseModel)
+                else
+                    call.respond(HttpStatusCode.OK)
+
             }
         }
     }

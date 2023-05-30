@@ -3,15 +3,16 @@ package ru.forStudents.database.questions
 import org.apache.logging.log4j.LogManager
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import ru.forStudents.database.users.Users
 
 object Questions : Table("questions") {
-    private val id = Questions.varchar("id", 50)
-    private val topic = Questions.varchar("topic", 250)
-    private val userEmail = Questions.varchar("user_email", 50)
-    private val question = Questions.text("question_body")
-    private val discussionId = Questions.varchar("discussion_id", 50)
+    val id = Questions.varchar("id", 50)
+    val topic = Questions.varchar("topic", 250)
+    val userEmail = (Questions.varchar("user_email", 50) references Users.email)
+    val question = Questions.text("question_body")
+    val discussionId = Questions.varchar("discussion_id", 50)
 
-    private val logger = LogManager.getLogger(Questions::class.java)
+    val logger = LogManager.getLogger(Questions::class.java)
 
     fun insert(questionDTO: QuestionDTO) {
         transaction {
@@ -51,7 +52,7 @@ object Questions : Table("questions") {
         }
     }
 
-    fun fetchAll() : List<QuestionDTO>?{
+    fun fetchAll(): List<QuestionDTO>? {
         return try {
             transaction {
                 val questionsModel = Questions.selectAll().toList()
@@ -63,7 +64,7 @@ object Questions : Table("questions") {
         }
     }
 
-    private fun getQuestionsDTOList(questionsModel: List<ResultRow>) : List<QuestionDTO>{
+    private fun getQuestionsDTOList(questionsModel: List<ResultRow>): List<QuestionDTO> {
         val questions = ArrayList<QuestionDTO>()
         for (row in questionsModel) {
             questions.add(

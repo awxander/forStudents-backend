@@ -20,9 +20,9 @@ fun main() {
         password = "ububuz48"
     )
 
-
 //    embeddedServer(CIO, port = 8080, host = "192.168.8.100", module = Application::module)
-    embeddedServer(CIO, port = 8080, host = "localhost", module = Application::module)
+//    embeddedServer(CIO, port = 8080, host = " 172.31.238.74", module = Application::module)
+    embeddedServer(CIO, port = 8080, host = "10.9.47.163", module = Application::module)
         .start(wait = true)
 }
 

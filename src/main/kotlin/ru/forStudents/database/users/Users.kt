@@ -7,9 +7,9 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object Users : Table("users") {
-    private val password = Users.varchar("password", 20)
-    private val username = Users.varchar("username", 30)
-    private val email = Users.varchar("email", 50)
+    val password = Users.varchar("password", 20)
+    val username = Users.varchar("username", 30)
+    val email = Users.varchar("email", 50)
 
     private val logger = LogManager.getLogger(Users::class.java)
 
